@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <title>Registro de Contactos</title>
+  <style>
+    .error {
+      color: red;
+    }
+    .container {
+      width: 60%;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Introduce un nuevo contacto</h2>
+  <form th:action="@{/registro}" th:object="${persona}" method="post">
+    <div class="form-group" th:if="${#fields.hasErrors()}">
+      <ul class="error">
+        <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" type="text" th:field="*{nombre}">
+      <div th:if="${#fields.hasErrors('nombre')}" class="error" th:errors="*{nombre}"></div>
+    </div>
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input id="telefono" type="text" th:field="*{telefono}">
+      <div th:if="${#fields.hasErrors('telefono')}" class="error" th:errors="*{telefono}"></div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+
+  <h3>Agenda:</h3>
+  <ul>
+    <li th:each="registro : ${listaPersonas}">
+      <span th:text="${registro.nombre + ' - ' + registro.telefono}"></span>
+    </li>
+  </ul>
+</div>
+</body>
+</html>
